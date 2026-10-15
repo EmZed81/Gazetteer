@@ -1,0 +1,32 @@
+:root{
+  --font-display:'Bodoni Moda','Bodoni 72','Didot',Georgia,serif;
+  --font-text:'Schibsted Grotesk','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --font-title:'Cantata One','Bodoni Moda',Georgia,serif; /* weight 400 only, no italic */
+  --font-mono:'DM Mono',ui-monospace,'SF Mono',Menlo,monospace;
+
+  /* Display (Bodoni Moda) — headlines, country names, big numerals.
+     Never below 28px: hairlines vanish. */
+  --display-xxl:clamp(64px,11vw,144px); /* @kind font */
+  --display-xl:clamp(48px,7vw,88px); /* @kind font */
+  --display-l:56px;
+  --display-m:40px;
+  --display-s:28px;
+  --display-leading:.92;
+  --display-tracking:-.02em;
+
+  /* Text (Schibsted Grotesk) */
+  --text-headline:22px;  /* section heads, sheet titles */
+  --text-title:17px;     /* place names in cards */
+  --text-body:15px;
+  --text-small:13px;
+  --text-kicker:11px;    /* UPPERCASE labels, +.12em */
+  --leading-tight:1.2;
+  --leading-body:1.5;
+  --tracking-kicker:.12em;
+
+  /* Mono (DM Mono) — counts, codes, coordinates */
+  --mono-m:13px;
+  --mono-s:11px;
+
+  --weight-regular:400; --weight-medium:500; --weight-semibold:600; --weight-bold:700; --weight-black:800;
+}

@@ -1,0 +1,82 @@
+/* ───────── Gazetteer colour ─────────
+   Newsprint + ink, one red pencil, six inks for categories.
+   Colour encodes WHAT a place is (category). WHERE (country) is
+   encoded with type: country names, ISO codes, ordinal numbers. */
+:root{
+  /* Paper (day edition) */
+  --paper-0:#FBF7EE;   /* raised: sheets, inputs */
+  --paper-1:#F2EBDC;   /* the page */
+  --paper-2:#E8DFCB;   /* hover, sunken wells */
+  --paper-3:#D6CAB0;   /* soft rules, disabled fills */
+
+  /* Ink */
+  --ink-1:#1B1814;     /* headlines, body. 15.6:1 on paper-1 */
+  --ink-2:#4A433A;     /* secondary text. 8.6:1 */
+  --ink-3:#6B6256;     /* tertiary / meta. 5.0:1 */
+  --ink-4:#9A8F7E;     /* placeholder & decorative only (not text that matters) */
+
+  /* The red pencil — the single brand accent. Used for: active state,
+     current selection, the editor's mark. Never decorative. */
+  --red-pencil:#C0381F;      /* 4.7:1 on paper-1 — safe for text ≥14px */
+  --red-pencil-ink:#FBF7EE;  /* text on red */
+  --red-pencil-tint:#F3D6CB;
+
+  /* Category inks (risograph drum set). fill = marker/tag fill,
+     on = text/glyph on fill, text = the colour when used as type on paper. */
+  --cat-restaurant:#8C2B3A;   --cat-restaurant-on:#FBF7EE; --cat-restaurant-text:#8C2B3A; /* Claret */
+  --cat-bakery:#D69A2D;       --cat-bakery-on:#1B1814;     --cat-bakery-text:#835510;     /* Crust */
+  --cat-pizza:#3E6B3A;        --cat-pizza-on:#FBF7EE;      --cat-pizza-text:#3E6B3A;      /* Basil */
+  --cat-coffee:#5A3A2A;       --cat-coffee-on:#FBF7EE;     --cat-coffee-text:#5A3A2A;     /* Espresso */
+  --cat-sandwich:#B85A1E;     --cat-sandwich-on:#FBF7EE;   --cat-sandwich-text:#A04A15;   /* Paprika */
+  --cat-reccs:#6A3F93;        --cat-reccs-on:#FBF7EE;      --cat-reccs-text:#6A3F93;      /* Ultraviolet */
+  --cat-favourites:#B83E70;  --cat-favourites-on:#FBF7EE; --cat-favourites-text:#A8366A; /* Rose */
+  --cat-other:#6B6256;        --cat-other-on:#FBF7EE;      --cat-other-text:#6B6256;      /* Pencil */
+
+  /* Map surface */
+  --map-land:#EDE5D3; --map-water:#D9DCD2; --map-road:#FBF7EE; --map-label:#6B6256;
+
+}
+
+/* Semantic aliases — declared on every theme scope so they re-resolve per theme */
+:root,[data-theme="night"],.theme-night{
+  --surface-page:var(--paper-1);
+  --surface-raised:var(--paper-0);
+  --surface-sunken:var(--paper-2);
+  --surface-inverse:var(--ink-1);
+  --text-primary:var(--ink-1);
+  --text-secondary:var(--ink-2);
+  --text-meta:var(--ink-3);
+  --text-placeholder:var(--ink-4);
+  --text-inverse:var(--paper-0);
+  --text-accent:var(--red-pencil);
+  --rule:var(--ink-1);
+  --rule-soft:var(--paper-3);
+  --focus-ring:var(--red-pencil);
+  --marker-ring:var(--paper-0);
+  --overlay-scrim:rgba(27,24,20,.32);
+}
+
+/* Night edition — warm charcoal stock, cream ink. Apply with
+   <html data-theme="night"> (or class .theme-night on any subtree). */
+[data-theme="night"],.theme-night{
+  --paper-0:#24211C;
+  --paper-1:#1A1814;
+  --paper-2:#2C2822;
+  --paper-3:#3D382F;
+  --ink-1:#EFE7D5;   /* 14.4:1 */
+  --ink-2:#C9BFAC;   /* 9.9:1 */
+  --ink-3:#A0968A;   /* 6.0:1 */
+  --ink-4:#6E665A;
+  --red-pencil:#EE6447; --red-pencil-ink:#1A1814; --red-pencil-tint:#4A2219;
+  --cat-restaurant:#C35A6A;  --cat-restaurant-on:#1A1814; --cat-restaurant-text:#E08A97;
+  --cat-bakery:#E0A93F;      --cat-bakery-on:#1A1814;     --cat-bakery-text:#E8B95E;
+  --cat-pizza:#6FA163;       --cat-pizza-on:#1A1814;      --cat-pizza-text:#8DBB80;
+  --cat-coffee:#B0805F;      --cat-coffee-on:#1A1814;     --cat-coffee-text:#C99B7A;
+  --cat-sandwich:#E0834A;    --cat-sandwich-on:#1A1814;   --cat-sandwich-text:#EBA070;
+  --cat-reccs:#A585CF;       --cat-reccs-on:#1A1814;      --cat-reccs-text:#BCA3DE;
+  --cat-favourites:#E07FA6;  --cat-favourites-on:#1A1814; --cat-favourites-text:#EC9DBD;
+  --cat-other:#A0968A;       --cat-other-on:#1A1814;      --cat-other-text:#A0968A;
+  --map-land:#22201B; --map-water:#161A1B; --map-road:#2F2B24; --map-label:#A0968A;
+  --marker-ring:#1A1814;
+  --overlay-scrim:rgba(0,0,0,.5);
+}

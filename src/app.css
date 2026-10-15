@@ -1,0 +1,19 @@
+/* App-level layout. Mobile only: wider screens just centre the phone-width column. */
+html, body, #root { height: 100%; }
+body { background: var(--surface-page); overscroll-behavior: none; }
+#root { max-width: 480px; margin: 0 auto; }
+button { -webkit-tap-highlight-color: transparent; }
+
+@keyframes gzPushIn { from { transform: translateX(100%) } to { transform: none } }
+@keyframes gzPushUnder { from { transform: none; opacity: 1 } to { transform: translateX(-28%); opacity: .35 } }
+@keyframes gzPopOut { from { transform: none } to { transform: translateX(100%) } }
+@keyframes gzPopUnder { from { transform: translateX(-28%); opacity: .35 } to { transform: none; opacity: 1 } }
+@keyframes gzRoll {
+  0% { transform: rotateX(90deg); opacity: 0; filter: brightness(.55) }
+  25% { opacity: 1 }
+  100% { transform: rotateX(0); opacity: 1; filter: none }
+}
+
+/* Map controls and attribution, restyled to the paper look */
+.maplibregl-ctrl-attrib { font-family: var(--font-mono); font-size: 10px; background: var(--paper-0) !important; color: var(--map-label); }
+.maplibregl-ctrl-attrib a { color: var(--map-label); }

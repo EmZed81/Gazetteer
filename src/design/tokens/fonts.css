@@ -1,0 +1,6 @@
+/* Gazetteer webfonts — Google Fonts (no proprietary files supplied).
+   Display: Bodoni Moda (variable, optical size 6–96)
+   Text/UI: Schibsted Grotesk (a grotesk drawn for newspapers)
+   Titles: Cantata One (Index headline, destination names + numbers, destination page titles)
+   Figures: DM Mono (counts, coordinates, country codes) */
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=DM+Mono:wght@400;500&family=Cantata+One&display=swap');

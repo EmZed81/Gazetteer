@@ -1,0 +1,6 @@
+# Personal data never goes into the repository (the app's code will be public).
+private/
+*.csv
+node_modules/
+dist/
+public/data/places.json
