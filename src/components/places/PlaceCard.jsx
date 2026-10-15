@@ -11,9 +11,11 @@ const pad2 = n => String(n).padStart(3, '0');
  *  compact — one line, for screens holding hundreds of places
  *  tile    — grid card, typographic (no photo needed)
  */
-export function PlaceCard({ name, category = 'other', area, city, countryCode, note, list, source, favourite, index, visited, variant = 'row', selected, onClick, style }) {
+export function PlaceCard({ name, title, branch, category = 'other', area, city, countryCode, note, list, source, favourite, index, visited, variant = 'row', selected, onClick, style }) {
   const [hover, setHover] = React.useState(false);
   const where = [area, city].filter(Boolean).join(', ');
+  const shown = title || name; // typeset name (see names.js); branch goes on its own small line
+  const branchLine = branch && <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)', marginTop: -4 }}>{branch}</div>;
   // Recommended places credit the reviewer ("via Tomek") where other places show their Google list.
   const listLine = source ? `via ${source}` : list;
   // A place that is also in "Favourite places" gets a small heart next to its name.
@@ -36,7 +38,7 @@ export function PlaceCard({ name, category = 'other', area, city, countryCode, n
       }}>
         <CategoryIcon category={category} shape="disc" size={16} />
         <div style={{ display: 'flex', gap: 8, alignItems: 'baseline', minWidth: 0 }}>
-          <span style={{ fontWeight: 600, fontSize: 14, color: 'var(--ink-1)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{name}</span>
+          <span style={{ fontWeight: 600, fontSize: 14, color: 'var(--ink-1)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{shown}</span>
           {heart}
           <span style={{ fontSize: 13, color: 'var(--text-meta)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{where}</span>
         </div>
@@ -57,7 +59,8 @@ export function PlaceCard({ name, category = 'other', area, city, countryCode, n
           <CategoryTag category={category} />
           {index != null && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-meta)' }}>№ {pad2(index)}</span>}
         </div>
-        <h3 style={{ margin: 0, fontFamily: 'var(--font-title)', fontWeight: 400, fontSize: 24, lineHeight: 1.25, letterSpacing: '-.01em', color: 'var(--ink-1)', textWrap: 'balance', overflowWrap: 'anywhere', hyphens: 'auto' }}>{name}</h3>
+        <h3 style={{ margin: 0, fontFamily: 'var(--font-title)', fontWeight: 400, fontSize: 24, lineHeight: 1.25, letterSpacing: '-.01em', color: 'var(--ink-1)', textWrap: 'balance', overflowWrap: 'normal', wordBreak: 'normal', hyphens: 'manual' }}>{shown}</h3>
+        {branchLine}
         <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{where}{countryCode && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-meta)', marginLeft: 6 }}>{countryCode}</span>}</div>
         {/* Grid cards show at most 3 lines of your note; the full note is in the list view and the place sheet. */}
         {note && <p style={{ margin: 0, fontFamily: 'var(--font-text)', fontSize: 14, lineHeight: 1.45, color: 'var(--ink-1)', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>“{note}”</p>}
@@ -80,10 +83,11 @@ export function PlaceCard({ name, category = 'other', area, city, countryCode, n
       <CategoryIcon category={category} shape="disc" size={28} style={{ marginTop: 0 }} />
       <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 3 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
-          <h3 style={{ margin: 0, fontSize: 17, fontWeight: 600, lineHeight: 1.2, color: 'var(--ink-1)', letterSpacing: '-.005em' }}>{name}</h3>
+          <h3 style={{ margin: 0, fontSize: 17, fontWeight: 600, lineHeight: 1.2, color: 'var(--ink-1)', letterSpacing: '-.005em' }}>{shown}</h3>
           {heart}
           {visited && <span title="Visited" style={{ fontSize: 11, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--text-meta)' }}>Been</span>}
         </div>
+        {branch && <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--text-secondary)' }}>{branch}</div>}
         <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
           <span style={{ color: catVar(category, 'text'), fontWeight: 600 }}>{(CATEGORIES[category] || CATEGORIES.other).label}</span>
           {where && <span> · {where}</span>}

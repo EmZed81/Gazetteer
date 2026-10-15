@@ -15,6 +15,18 @@ const MASTHEAD_H = 73; // the filter bar sticks just below the masthead
 // Search looks through the name, neighbourhood, your note, the list and the recommender.
 const matches = (p, q) => [p.name, p.area, p.address, p.note, p.list, p.source].join(' ').toLowerCase().includes(q);
 
+// Grid cards never break a word. A name with a word too wide for a half-width card gets a full-width card instead.
+const measure = document.createElement('canvas').getContext('2d');
+function longestWord(text) {
+  measure.font = "24px 'Cantata One'";
+  return Math.max(...text.split(/[\s\u00A0]+/).map(w => measure.measureText(w).width * 1.0));
+}
+function useTitleFont() {
+  const [ready, setReady] = React.useState(() => document.fonts.check("24px 'Cantata One'"));
+  React.useEffect(() => { if (!ready) document.fonts.load("24px 'Cantata One'").then(() => setReady(true)); }, [ready]);
+  return ready;
+}
+
 /** One destination: header, sticky filters, then list / grid / map. */
 export function CityScreen({ city, places, onBack, onOpenPlace, selectedId }) {
   const remembered = load('view-' + city.code, {});
@@ -33,7 +45,10 @@ export function CityScreen({ city, places, onBack, onOpenPlace, selectedId }) {
   groups.push({ k: 'been', title: 'Been', items: shown.filter(p => p.visited) });
   const reset = () => { setQ(''); setCats([]); };
 
-  const tiles = shown.map((p, i) => <PlaceCard key={p.id} variant="tile" index={i + 1} {...p} city={city.name} selected={p.id === selectedId} onClick={() => onOpenPlace(p.id)} />);
+  const fontsReady = useTitleFont();
+  const tileWidth = (Math.min(window.innerWidth, 480) - 32 - 10) / 2 - 32; // card text width in a 2-column grid
+  const tiles = shown.map((p, i) => <PlaceCard key={p.id} variant="tile" index={i + 1} {...p} city={city.name} selected={p.id === selectedId} onClick={() => onOpenPlace(p.id)}
+    wide={fontsReady && longestWord(p.title || p.name) > tileWidth} />);
   let body;
   if (places.length === 0) body = <EmptyState kind="country" />;
   else if (!shown.length) body = <EmptyState kind={ql ? 'search' : 'filter'} query={ql ? q : undefined} actionLabel={ql ? 'Clear search' : 'Reset filters'} onAction={reset} />;

@@ -1,5 +1,6 @@
 // Loads the place list and works out every count from it (nothing is hard-coded).
 import { CATEGORY_KEYS } from './components/icons/CategoryIcon.jsx';
+import { displayName } from './names.js';
 
 // The destinations, in Index order. Add a line here to add a destination.
 export const CITIES = [
@@ -24,7 +25,7 @@ const COUNTRY_SUFFIX = /,\s*(United States|Netherlands|Greece|United Kingdom|UK|
 const tidyAddress = a => (a || '').replace(COUNTRY_SUFFIX, '').replace(/\s+-\s+United Arab Emirates$/, '');
 
 export function buildArchive(raw) {
-  return raw.map(p => ({ ...p, address: tidyAddress(p.address), cityCode: p.city, city: cityByCode[p.city]?.name || p.city }));
+  return raw.map(p => ({ ...p, ...displayName(p.name), address: tidyAddress(p.address), cityCode: p.city, city: cityByCode[p.city]?.name || p.city }));
 }
 
 // All the numbers in the app. They count places still to go: marking a place as been takes it out of

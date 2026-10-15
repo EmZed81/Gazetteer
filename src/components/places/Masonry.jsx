@@ -4,6 +4,7 @@ import React from 'react';
  * Two-column "wrap-around" layout: each card keeps its own height and the next card slots in
  * wherever there's room, so short and long cards interlock instead of leaving gaps.
  * (CSS grid with 1px rows; each card spans as many rows as it is tall.)
+ * A child with a `wide` prop spans both columns.
  */
 export function Masonry({ children, gap = 10, style }) {
   const ref = React.useRef(null);
@@ -21,8 +22,8 @@ export function Masonry({ children, gap = 10, style }) {
     return () => ro.disconnect();
   });
   return (
-    <div ref={ref} style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gridAutoRows: 1, columnGap: gap, alignItems: 'start', ...style }}>
-      {React.Children.map(children, child => <div>{child}</div>)}
+    <div ref={ref} style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gridAutoRows: 1, gridAutoFlow: 'row dense', columnGap: gap, alignItems: 'start', ...style }}>
+      {React.Children.map(children, child => <div style={child.props.wide ? { gridColumn: '1 / -1' } : undefined}>{child}</div>)}
     </div>
   );
 }
