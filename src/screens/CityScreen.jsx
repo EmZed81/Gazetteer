@@ -10,9 +10,6 @@ import { inCategory } from '../data.js';
 import { load, save } from '../storage.js';
 import { Masonry } from '../components/places/Masonry.jsx';
 
-// PREVIEW ONLY: switch grid layouts for comparison screenshots.
-const GRID_LAYOUT = () => load('grid-layout', 'rows');
-
 const MASTHEAD_H = 73; // the filter bar sticks just below the masthead
 
 // Search looks through the name, neighbourhood, your note, the list and the recommender.
@@ -41,9 +38,7 @@ export function CityScreen({ city, places, onBack, onOpenPlace, selectedId }) {
   if (places.length === 0) body = <EmptyState kind="country" />;
   else if (!shown.length) body = <EmptyState kind={ql ? 'search' : 'filter'} query={ql ? q : undefined} actionLabel={ql ? 'Clear search' : 'Reset filters'} onAction={reset} />;
   else if (view === 'grid') body = (
-    GRID_LAYOUT() === 'masonry'
-      ? <Masonry style={{ paddingTop: 20 }}>{tiles}</Masonry>
-      : <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10, paddingTop: 20, alignItems: 'start' }}>{tiles}</div>
+    <Masonry style={{ paddingTop: 20 }}>{tiles}</Masonry>
   );
   else if (view === 'map') body = (
     <div style={{ marginTop: 20 }}>
