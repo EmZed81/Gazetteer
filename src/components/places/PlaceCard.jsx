@@ -48,7 +48,7 @@ export function PlaceCard({ name, category = 'other', area, city, countryCode, n
   if (variant === 'tile') {
     return (
       <article {...common} style={{
-        display: 'flex', flexDirection: 'column', gap: 10, padding: '14px 16px 16px', minHeight: 200, boxSizing: 'border-box',
+        display: 'flex', flexDirection: 'column', gap: 10, padding: '14px 16px 16px', boxSizing: 'border-box',
         background: hover && onClick ? 'var(--paper-0)' : 'var(--surface-raised)',
         borderTop: `6px solid ${catVar(category)}`, outline: selected ? '2px solid var(--red-pencil)' : 'none', outlineOffset: -2,
         cursor: onClick ? 'pointer' : 'default', transition: 'background var(--dur-fast) var(--ease-out)', ...style,
@@ -59,7 +59,8 @@ export function PlaceCard({ name, category = 'other', area, city, countryCode, n
         </div>
         <h3 style={{ margin: 0, fontFamily: 'var(--font-title)', fontWeight: 400, fontSize: 24, lineHeight: 1.25, letterSpacing: '-.01em', color: 'var(--ink-1)', textWrap: 'balance', overflowWrap: 'anywhere', hyphens: 'auto' }}>{name}</h3>
         <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{where}{countryCode && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-meta)', marginLeft: 6 }}>{countryCode}</span>}</div>
-        {note && <p style={{ margin: 0, fontFamily: 'var(--font-text)', fontSize: 14, lineHeight: 1.45, color: 'var(--ink-1)', textWrap: 'pretty' }}>“{note}”</p>}
+        {/* Grid cards show at most 3 lines of your note; the full note is in the list view and the place sheet. */}
+        {note && <p style={{ margin: 0, fontFamily: 'var(--font-text)', fontSize: 14, lineHeight: 1.45, color: 'var(--ink-1)', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>“{note}”</p>}
         <div style={{ marginTop: 'auto', paddingTop: 10, borderTop: '1px solid var(--rule-soft)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: 'var(--text-meta)' }}>
           <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{listLine || '—'}</span>
           {visited ? <span style={{ fontWeight: 600, color: 'var(--ink-1)' }}>Been ✓</span> : <span>Not yet</span>}

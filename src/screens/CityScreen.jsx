@@ -8,6 +8,10 @@ import { Button } from '../components/controls/Button.jsx';
 import { CATEGORY_KEYS, CATEGORIES } from '../components/icons/CategoryIcon.jsx';
 import { inCategory } from '../data.js';
 import { load, save } from '../storage.js';
+import { Masonry } from '../components/places/Masonry.jsx';
+
+// PREVIEW ONLY: switch grid layouts for comparison screenshots.
+const GRID_LAYOUT = () => load('grid-layout', 'rows');
 
 const MASTHEAD_H = 73; // the filter bar sticks just below the masthead
 
@@ -32,13 +36,14 @@ export function CityScreen({ city, places, onBack, onOpenPlace, selectedId }) {
   groups.push({ k: 'been', title: 'Been', items: shown.filter(p => p.visited) });
   const reset = () => { setQ(''); setCats([]); };
 
+  const tiles = shown.map((p, i) => <PlaceCard key={p.id} variant="tile" index={i + 1} {...p} city={city.name} selected={p.id === selectedId} onClick={() => onOpenPlace(p.id)} />);
   let body;
   if (places.length === 0) body = <EmptyState kind="country" />;
   else if (!shown.length) body = <EmptyState kind={ql ? 'search' : 'filter'} query={ql ? q : undefined} actionLabel={ql ? 'Clear search' : 'Reset filters'} onAction={reset} />;
   else if (view === 'grid') body = (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 10, paddingTop: 20 }}>
-      {shown.map((p, i) => <PlaceCard key={p.id} variant="tile" index={i + 1} {...p} city={city.name} selected={p.id === selectedId} onClick={() => onOpenPlace(p.id)} style={{ minHeight: 170 }} />)}
-    </div>
+    GRID_LAYOUT() === 'masonry'
+      ? <Masonry style={{ paddingTop: 20 }}>{tiles}</Masonry>
+      : <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10, paddingTop: 20, alignItems: 'start' }}>{tiles}</div>
   );
   else if (view === 'map') body = (
     <div style={{ marginTop: 20 }}>
