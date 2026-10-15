@@ -57,7 +57,7 @@ export function PlaceCard({ name, category = 'other', area, city, countryCode, n
           <CategoryTag category={category} />
           {index != null && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-meta)' }}>№ {pad2(index)}</span>}
         </div>
-        <h3 style={{ margin: 0, fontFamily: 'var(--font-title)', fontWeight: 400, fontSize: 24, lineHeight: 1.1, letterSpacing: '-.01em', color: 'var(--ink-1)', textWrap: 'balance', overflowWrap: 'anywhere', hyphens: 'auto' }}>{name}</h3>
+        <h3 style={{ margin: 0, fontFamily: 'var(--font-title)', fontWeight: 400, fontSize: 24, lineHeight: 1.18, letterSpacing: '-.01em', color: 'var(--ink-1)', textWrap: 'balance', overflowWrap: 'anywhere', hyphens: 'auto' }}>{name}</h3>
         <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{where}{countryCode && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-meta)', marginLeft: 6 }}>{countryCode}</span>}</div>
         {note && <p style={{ margin: 0, fontFamily: 'var(--font-text)', fontSize: 14, lineHeight: 1.45, color: 'var(--ink-1)', textWrap: 'pretty' }}>“{note}”</p>}
         <div style={{ marginTop: 'auto', paddingTop: 10, borderTop: '1px solid var(--rule-soft)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: 'var(--text-meta)' }}>

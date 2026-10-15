@@ -16,8 +16,9 @@ export function FilterBar({ query = '', onQueryChange, counts = {}, selected = [
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <div style={{ display: 'flex', gap: 6, overflowX: 'auto', flex: 1, minWidth: 0, scrollbarWidth: 'none', paddingBottom: 1 }}>
           <Chip label="All" selected={selected.length === 0} onClick={onClear} size={compact ? 'sm' : 'md'} />
-          {CATEGORY_KEYS.map(k => (
-            <Chip key={k} label={CATEGORIES[k].plural} category={k} count={counts[k]} disabled={counts[k] === 0}
+          {/* Only categories this destination actually has; empty ones would just be scrolling past nothing. */}
+          {CATEGORY_KEYS.filter(k => counts[k] > 0).map(k => (
+            <Chip key={k} label={CATEGORIES[k].plural} category={k} count={counts[k]}
               selected={selected.includes(k)} onClick={() => toggle(k)} size={compact ? 'sm' : 'md'} />
           ))}
         </div>

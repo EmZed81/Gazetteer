@@ -30,7 +30,7 @@ export function PlaceSheet({ place: p, city, onClose, onToggleVisited }) {
             <CategoryTag category={p.category} />
             <IconButton icon="x" label="Close" variant="ghost" size="lg" onClick={onClose} />
           </div>
-          <h2 className="gz-display" style={{ margin: 0, fontFamily: 'var(--font-title)', fontWeight: 400, fontSize: 40, textWrap: 'balance', overflowWrap: 'anywhere' }}>{p.name}</h2>
+          <h2 className="gz-display" style={{ margin: 0, fontFamily: 'var(--font-title)', fontWeight: 400, fontSize: 40, lineHeight: 1.08, textWrap: 'balance', overflowWrap: 'anywhere' }}>{p.name}</h2>
           <div style={{ fontSize: 15, color: 'var(--text-secondary)' }}>
             {where} <span className="gz-mono" style={{ fontSize: 12, color: 'var(--text-meta)', marginLeft: 6 }}>{p.cityCode}</span>
           </div>
