@@ -4,7 +4,7 @@ import { CATEGORY_KEYS, CATEGORIES, catVar } from '../icons/CategoryIcon.jsx';
 /** Magazine-section opener for a country: ordinal, name in the title face (auto-fits the container width), stats in mono, category ink-bar. */
 const TITLE_FIT_CHARS = 10;
 
-export function CountryHeader({ name, code, ordinal, placeCount = 0, cityCount, breakdown = {}, dek, size = 'lg', style }) {
+export function CountryHeader({ name, code, ordinal, placeCount = 0, countLabel, cityCount, breakdown = {}, dek, size = 'lg', style }) {
   const total = Object.values(breakdown).reduce((a, b) => a + b, 0) || 1;
   const keys = [...CATEGORY_KEYS, 'other'].filter(k => breakdown[k]);
   const big = size === 'lg';
@@ -17,7 +17,7 @@ export function CountryHeader({ name, code, ordinal, placeCount = 0, cityCount, 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16, fontFamily: 'var(--font-text)', fontSize: 11, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--ink-1)' }}>
         <span>{ordinal != null && <>No. {String(ordinal).padStart(2, '0')}<span style={{ color: 'var(--text-meta)', margin: '0 8px' }}>/</span></>}<span style={{ fontFamily: 'var(--font-mono)', fontWeight: 500, letterSpacing: '.04em' }}>{code}</span></span>
         <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 500, letterSpacing: '.02em', textTransform: 'none', color: 'var(--text-meta)' }}>
-          {placeCount} places{cityCount != null && ` · ${cityCount} ${cityCount === 1 ? 'city' : 'cities'}`}
+          {countLabel ?? `${placeCount} places`}{cityCount != null && ` · ${cityCount} ${cityCount === 1 ? 'city' : 'cities'}`}
         </span>
       </div>
       <h1 style={{ margin: 0, fontFamily: 'var(--font-title)', fontWeight: 400, fontSize: fit, lineHeight: 0.9, letterSpacing: '-.025em', color: 'var(--ink-1)', whiteSpace: 'nowrap' }}>{name}</h1>

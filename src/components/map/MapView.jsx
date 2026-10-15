@@ -67,7 +67,7 @@ export function MapView({ places = [], selectedId, onSelect, height = 360, capti
       const el = document.createElement('div');
       el.style.zIndex = selected ? 5 : 1;
       const root = createRoot(el);
-      root.render(<MapMarker category={p.category} label={p.name} selected={selected} onClick={() => onSelect && onSelect(p.id)} />);
+      root.render(<MapMarker category={p.category} label={p.name} selected={selected} faded={p.visited && !selected} onClick={() => onSelect && onSelect(p.id)} />);
       // The pin's disc sits at the left of the element (its name flag extends right), so centre the disc on the spot.
       const m = new maplibregl.Marker({ element: el, anchor: 'left', offset: [selected ? -21 : -15, 0] }).setLngLat([p.lng, p.lat]).addTo(mapRef.current);
       const remove = m.remove.bind(m);

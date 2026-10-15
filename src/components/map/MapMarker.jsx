@@ -5,7 +5,7 @@ import { CategoryIcon } from '../icons/CategoryIcon.jsx';
  * Map marker. dot (zoomed out) · pin (default disc with glyph) · cluster (ink disc + count).
  * Selected pins grow and fly an ink label flag.
  */
-export function MapMarker({ category = 'other', variant = 'pin', selected = false, count, label, onClick, style }) {
+export function MapMarker({ category = 'other', variant = 'pin', selected = false, faded = false, count, label, onClick, style }) {
   if (variant === 'cluster') {
     const s = count > 99 ? 40 : count > 9 ? 34 : 28;
     return (
@@ -21,7 +21,7 @@ export function MapMarker({ category = 'other', variant = 'pin', selected = fals
   }
   const size = selected ? 36 : 26;
   return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', position: 'relative', ...style }}>
+    <span style={{ display: 'inline-flex', alignItems: 'center', position: 'relative', opacity: faded ? 0.45 : 1, ...style }}>
       <button type="button" onClick={onClick} aria-label={label} aria-pressed={selected} style={{
         padding: 0, border: `${selected ? 3 : 2}px solid ${selected ? 'var(--ink-1)' : 'var(--marker-ring)'}`, borderRadius: '50%',
         background: 'transparent', boxShadow: 'var(--shadow-marker)', cursor: 'pointer', display: 'inline-flex',

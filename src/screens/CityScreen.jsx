@@ -23,8 +23,13 @@ export function CityScreen({ city, places, onBack, onOpenPlace, selectedId }) {
   React.useEffect(() => { save('view-' + city.code, { q, cats, view }); }, [q, cats, view]);
 
   const ql = q.trim().toLowerCase();
-  const shown = places.filter(p => (!cats.length || cats.some(k => inCategory(p, k))) && (!ql || matches(p, ql)));
-  const groups = [...CATEGORY_KEYS, 'other'].map(k => ({ k, items: shown.filter(p => p.category === k) })).filter(g => g.items.length);
+  // Chips: categories pick places still to go; "Been" picks places you've been to. Ignore chips that have emptied.
+  const active = cats.filter(k => city.counts[k] > 0);
+  const picked = p => !active.length || (p.visited ? active.includes('been') : active.some(k => k !== 'been' && inCategory(p, k)));
+  const found = places.filter(p => picked(p) && (!ql || matches(p, ql)));
+  const shown = [...found.filter(p => !p.visited), ...found.filter(p => p.visited)]; // been places go last
+  const groups = [...CATEGORY_KEYS, 'other'].map(k => ({ k, title: CATEGORIES[k].plural, items: shown.filter(p => !p.visited && p.category === k) }));
+  groups.push({ k: 'been', title: 'Been', items: shown.filter(p => p.visited) });
   const reset = () => { setQ(''); setCats([]); };
 
   let body;
@@ -43,10 +48,10 @@ export function CityScreen({ city, places, onBack, onOpenPlace, selectedId }) {
       </div>
     </div>
   );
-  else body = groups.map(g => (
+  else body = groups.filter(g => g.items.length).map(g => (
     <section key={g.k} style={{ marginTop: 28 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid var(--ink-1)', paddingBottom: 6 }}>
-        <h2 style={{ margin: 0, fontSize: 22, fontWeight: 600, letterSpacing: '-.01em' }}>{CATEGORIES[g.k].plural}</h2>
+        <h2 style={{ margin: 0, fontSize: 22, fontWeight: 600, letterSpacing: '-.01em' }}>{g.title}</h2>
         <span className="gz-mono" style={{ fontSize: 12, color: 'var(--text-meta)' }}>{g.items.length}</span>
       </div>
       {g.items.map(p => <PlaceCard key={p.id} {...p} selected={p.id === selectedId} onClick={() => onOpenPlace(p.id)} />)}
@@ -56,10 +61,11 @@ export function CityScreen({ city, places, onBack, onOpenPlace, selectedId }) {
   return (
     <div style={{ padding: '16px 16px 80px', boxSizing: 'border-box' }}>
       <Button variant="ghost" size="sm" icon="arrow-left" onClick={onBack} style={{ marginBottom: 16, marginLeft: -4 }}>The Index</Button>
-      <CountryHeader name={city.name} code={city.code} ordinal={city.ordinal} placeCount={city.count} breakdown={city.breakdown} />
+      <CountryHeader name={city.name} code={city.code} ordinal={city.ordinal} breakdown={city.breakdown}
+        countLabel={city.been ? `${city.count} to go · ${city.been} been` : `${city.count} places`} />
       {places.length > 0 && (
         <div style={{ position: 'sticky', top: MASTHEAD_H, zIndex: 10, background: 'var(--surface-page)', paddingTop: 16, paddingBottom: 12, marginTop: 8, borderBottom: '1px solid var(--rule-soft)' }}>
-          <FilterBar query={q} onQueryChange={setQ} placeholder={`Search ${city.count} places in ${city.name}`} counts={city.counts} selected={cats}
+          <FilterBar query={q} onQueryChange={setQ} placeholder={`Search ${city.total} places in ${city.name}`} counts={city.counts} selected={active}
             onToggleCategory={k => setCats(x => x.includes(k) ? x.filter(y => y !== k) : [...x, k])} onClear={() => setCats([])}
             view={view} onViewChange={setView} resultCount={shown.length} compact />
         </div>

@@ -21,6 +21,9 @@ export function FilterBar({ query = '', onQueryChange, counts = {}, selected = [
             <Chip key={k} label={CATEGORIES[k].plural} category={k} count={counts[k]}
               selected={selected.includes(k)} onClick={() => toggle(k)} size={compact ? 'sm' : 'md'} />
           ))}
+          {counts.been > 0 && (
+            <Chip label="Been" count={counts.been} selected={selected.includes('been')} onClick={() => toggle('been')} size={compact ? 'sm' : 'md'} />
+          )}
         </div>
         {resultCount != null && !compact && (
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-meta)', whiteSpace: 'nowrap' }}>{resultCount} {resultCount === 1 ? 'place' : 'places'}</span>

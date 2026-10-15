@@ -24,13 +24,21 @@ const COUNTRY_SUFFIX = /,\s*(United States|Netherlands|Greece|United Kingdom|UK|
 const tidyAddress = a => (a || '').replace(COUNTRY_SUFFIX, '').replace(/\s+-\s+United Arab Emirates$/, '');
 
 export function buildArchive(raw) {
-  const places = raw.map(p => ({ ...p, address: tidyAddress(p.address), cityCode: p.city, city: cityByCode[p.city]?.name || p.city }));
+  return raw.map(p => ({ ...p, address: tidyAddress(p.address), cityCode: p.city, city: cityByCode[p.city]?.name || p.city }));
+}
+
+// All the numbers in the app. They count places still to go: marking a place as been takes it out of
+// its category's count and into the destination's "been" count.
+export function summarise(places, visited) {
   const countries = CITIES.map(c => {
     const mine = places.filter(p => p.cityCode === c.code);
+    const toGo = mine.filter(p => !visited.has(p.id));
     const breakdown = {};
-    for (const p of mine) breakdown[p.category] = (breakdown[p.category] || 0) + 1;
-    const counts = Object.fromEntries(CATEGORY_KEYS.map(k => [k, mine.filter(p => inCategory(p, k)).length]));
-    return { ...c, count: mine.length, breakdown, counts };
+    for (const p of toGo) breakdown[p.category] = (breakdown[p.category] || 0) + 1;
+    const counts = Object.fromEntries(CATEGORY_KEYS.map(k => [k, toGo.filter(p => inCategory(p, k)).length]));
+    counts.been = mine.length - toGo.length;
+    return { ...c, total: mine.length, count: toGo.length, been: counts.been, breakdown, counts };
   });
-  return { places, countries, total: places.length, countryTotal: countries.length };
+  const toGo = countries.reduce((n, c) => n + c.count, 0);
+  return { places, countries, total: places.length, toGo, been: places.length - toGo, countryTotal: countries.length };
 }

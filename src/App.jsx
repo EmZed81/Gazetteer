@@ -1,5 +1,5 @@
 import React from 'react';
-import { buildArchive } from './data.js';
+import { buildArchive, summarise } from './data.js';
 import { fetchLocked, unlockWithSavedKey, unlockWithPasscode } from './unlock.js';
 import { PasscodeScreen } from './screens/PasscodeScreen.jsx';
 import { load, save } from './storage.js';
@@ -95,15 +95,16 @@ export function App() {
   if (locked) return <PasscodeScreen onSubmit={tryPasscode} />;
   if (!archive) return null;
 
-  const city = archive.countries.find(c => c.code === loc.code);
+  const summary = summarise(archive, visited);
+  const city = summary.countries.find(c => c.code === loc.code);
   const code = city ? city.code : '';
-  const place = loc.placeId && archive.places.find(p => p.id === loc.placeId && p.cityCode === code);
+  const place = loc.placeId && archive.find(p => p.id === loc.placeId && p.cityCode === code);
   const withVisited = p => ({ ...p, visited: visited.has(p.id) });
 
   const screen = (c, live) => c
-    ? <CityScreen key={c} city={archive.countries.find(x => x.code === c)} places={archive.places.filter(p => p.cityCode === c).map(withVisited)}
+    ? <CityScreen key={c} city={summary.countries.find(x => x.code === c)} places={archive.filter(p => p.cityCode === c).map(withVisited)}
         selectedId={live && place ? place.id : null} onBack={() => goUp('')} onOpenPlace={id => navigate(c, id)} />
-    : <IndexScreen archive={archive} visited={visited} animateIn={live && intro.current && !reducedMotion()} onOpenCity={c2 => navigate(c2)} onOpenPlace={(c2, id) => navigate(c2, id)} />;
+    : <IndexScreen archive={summary} visited={visited} animateIn={live && intro.current && !reducedMotion()} onOpenCity={c2 => navigate(c2)} onOpenPlace={(c2, id) => navigate(c2, id)} />;
 
   const layers = trans ? [{ c: trans.from, out: true }, { c: code }] : [{ c: code }];
   const layerStyle = out => {

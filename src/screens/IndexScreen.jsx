@@ -15,7 +15,7 @@ const ROLL = { duration: 700, firstDelay: 250, stagger: 120, ease: 'cubic-bezier
 
 function ContentsRow({ c, onOpen, rollIndex }) {
   const [pressed, setPressed] = React.useState(false);
-  const empty = c.count === 0;
+  const empty = c.total === 0;
   return (
     <button onClick={() => onOpen(c.code)}
       onPointerDown={() => setPressed(true)} onPointerUp={() => setPressed(false)} onPointerLeave={() => setPressed(false)}
@@ -45,7 +45,7 @@ export function IndexScreen({ archive, visited, onOpenCity, onOpenPlace, animate
     <div style={{ padding: '24px 16px 48px', boxSizing: 'border-box' }}>
       <div style={{ borderTop: '4px solid var(--ink-1)', paddingTop: 14, display: 'flex', justifyContent: 'space-between' }} className="gz-kicker">
         <span>The Index</span>
-        <span className="gz-mono" style={{ letterSpacing: 0, fontWeight: 400, textTransform: 'none', color: 'var(--text-meta)' }}>{archive.total} places · {archive.countryTotal} destinations</span>
+        <span className="gz-mono" style={{ letterSpacing: 0, fontWeight: 400, textTransform: 'none', color: 'var(--text-meta)' }}>{archive.toGo} to go · {archive.countryTotal} destinations</span>
       </div>
       <h1 className="gz-display" style={{ margin: '16px 0 28px', fontFamily: 'var(--font-title)', fontWeight: 400, fontSize: 38, lineHeight: 1.1 }}>
         <span style={{ whiteSpace: 'nowrap', fontSize: 41, lineHeight: '62px' }}>So many saves,</span><br />
