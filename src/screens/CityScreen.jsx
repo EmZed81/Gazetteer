@@ -47,13 +47,13 @@ export function CityScreen({ city, places, onBack, onOpenPlace, selectedId }) {
 
   const fontsReady = useTitleFont();
   const tileWidth = (Math.min(window.innerWidth, 480) - 32 - 10) / 2 - 32; // card text width in a 2-column grid
-  const tiles = shown.map((p, i) => <PlaceCard key={p.id} variant="tile" index={i + 1} {...p} city={city.name} selected={p.id === selectedId} onClick={() => onOpenPlace(p.id)}
+  const tiles = shown.map(p => <PlaceCard key={p.id} variant="tile" {...p} city={city.name} selected={p.id === selectedId} onClick={() => onOpenPlace(p.id)}
     wide={fontsReady && longestWord(p.title || p.name) > tileWidth} />);
   let body;
   if (places.length === 0) body = <EmptyState kind="country" />;
   else if (!shown.length) body = <EmptyState kind={ql ? 'search' : 'filter'} query={ql ? q : undefined} actionLabel={ql ? 'Clear search' : 'Reset filters'} onAction={reset} />;
   else if (view === 'grid') body = (
-    <Masonry style={{ paddingTop: 20 }}>{tiles}</Masonry>
+    <Masonry style={{ marginTop: 20 }}>{tiles}</Masonry>
   );
   else if (view === 'map') body = (
     <div style={{ marginTop: 20 }}>
