@@ -1,0 +1,6 @@
+/* The Atlas: a desktop page. Fills the window; nothing scrolls except the places list. */
+html, body, #root { height: 100%; margin: 0; }
+body { background: var(--surface-page); color: var(--text-primary); overflow: hidden; }
+.maplibregl-ctrl-attrib { font-family: var(--font-mono); font-size: 10px; background: transparent !important; color: var(--ink-3); }
+.maplibregl-ctrl-attrib a { color: var(--ink-3); }
+@keyframes gzFadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }

@@ -5,8 +5,8 @@ import { load, save } from './storage.js';
 const fromB64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 const toB64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
 
-export async function fetchLocked() {
-  const res = await fetch('data/places.locked.json', { cache: 'no-cache' });
+export async function fetchLocked(path = 'data/places.locked.json') {
+  const res = await fetch(path, { cache: 'no-cache' });
   if (!res.ok) throw new Error('Could not load your places');
   return res.json();
 }
