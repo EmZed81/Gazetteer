@@ -6,7 +6,7 @@ cache = json.load(open(CACHE)) if os.path.exists(CACHE) else {}
 places = json.load(open(PLACES))
 # Which OpenStreetMap field reads like a neighbourhood differs by city ("Manhattan" is too broad, "Jordaan" is right).
 ORDER = {"NYC": ["neighbourhood", "quarter", "suburb"], "AMS": ["quarter", "suburb"], "ATH": ["neighbourhood", "quarter", "suburb"],
-         "CPH": ["quarter", "suburb"], "LON": ["suburb", "quarter"]}
+         "CPH": ["quarter", "suburb"], "LON": ["suburb", "quarter"], "VIE": ["suburb", "city_district"]}
 DEFAULT = ["suburb", "neighbourhood", "quarter"]
 for i, p in enumerate(places):
     key = f"{p['lat']:.5f},{p['lng']:.5f}"
@@ -22,7 +22,7 @@ for i, p in enumerate(places):
         json.dump(cache, open(CACHE, "w"), ensure_ascii=False); time.sleep(1.1)
     a = cache.get(key, {})
     # Skip administrative names that don't read like a neighbourhood ("Manhattan Community Board 8").
-    ok = lambda v: v and not re.search(r"Community Board|District|Borough|County", v)
+    ok = lambda v: v and not re.search(r"Community Board|District|Borough|County|Katastralgemeinde", v)
     p["area"] = next((a[k] for k in ORDER.get(p["city"], DEFAULT) + ["suburb"] if ok(a.get(k))), "")
     print(f"[{i+1}/{len(places)}] {p['name']}: {p['area']}", file=sys.stderr)
 json.dump(places, open(PLACES, "w"), ensure_ascii=False, indent=1)
