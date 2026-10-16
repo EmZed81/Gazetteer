@@ -1,0 +1,17 @@
+{
+  "name": "gazetteer-video",
+  "private": true,
+  "description": "Animated charts of the Gazetteer archive, made with Remotion.",
+  "scripts": {
+    "data": "node make-data.mjs ../private/places.json",
+    "studio": "remotion studio",
+    "render": "remotion render WhatYouSave out/what-you-save.mp4",
+    "still": "remotion still WhatYouSave out/still.png --frame=300"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.536",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.536"
+  }
+}
