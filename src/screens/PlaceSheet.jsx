@@ -48,9 +48,10 @@ export function PlaceSheet({ place: p, city, onClose, onToggleVisited }) {
             <Row label="Status">{p.visited ? 'Been' : 'Not yet'}</Row>
             <Row label="Filed in">No. {String(city.ordinal).padStart(2, '0')} · {city.name}</Row>
           </dl>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 6 }}>
-            <Button size="lg" iconRight="arrow-up-right" onClick={() => window.open(p.url, '_blank', 'noopener')}>Open in Google Maps</Button>
-            <Button size="lg" variant="secondary" icon="bookmark" onClick={onToggleVisited}>{p.visited ? 'Mark not been' : 'Mark as been'}</Button>
+          {/* Side by side even on narrower phones (iPhone 15: 393pt): slimmer side padding, no wrapping. */}
+          <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+            <Button size="lg" iconRight="arrow-up-right" onClick={() => window.open(p.url, '_blank', 'noopener')} style={{ flex: '1 1 auto', padding: '0 12px', whiteSpace: 'nowrap' }}>Open in Google Maps</Button>
+            <Button size="lg" variant="secondary" icon="bookmark" onClick={onToggleVisited} style={{ flex: '1 1 auto', padding: '0 12px', whiteSpace: 'nowrap' }}>{p.visited ? 'Mark not been' : 'Mark as been'}</Button>
           </div>
         </div>
       </aside>
