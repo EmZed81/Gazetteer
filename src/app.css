@@ -2,6 +2,8 @@
 html, body, #root { height: 100%; }
 body { background: var(--surface-page); overscroll-behavior: none; }
 #root { max-width: 480px; margin: 0 auto; }
+/* iPhone home bar: keep the end of each page clear of it */
+[data-scroll] { padding-bottom: env(safe-area-inset-bottom); box-sizing: border-box; }
 button { -webkit-tap-highlight-color: transparent; }
 
 @keyframes gzPushIn { from { transform: translateX(100%) } to { transform: none } }

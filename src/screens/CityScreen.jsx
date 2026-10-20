@@ -10,7 +10,8 @@ import { inCategory } from '../data.js';
 import { load, save } from '../storage.js';
 import { Masonry } from '../components/places/Masonry.jsx';
 
-const MASTHEAD_H = 73; // the filter bar sticks just below the masthead
+// The filter bar sticks just below the masthead (73px, plus the iPhone status-bar area when installed).
+const MASTHEAD_H = 'calc(73px + env(safe-area-inset-top))';
 
 // Search looks through the name, neighbourhood, your note, the list and the recommender.
 const matches = (p, q) => [p.name, p.area, p.address, p.note, p.list, p.source].join(' ').toLowerCase().includes(q);

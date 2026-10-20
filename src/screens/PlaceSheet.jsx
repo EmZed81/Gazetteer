@@ -25,7 +25,7 @@ export function PlaceSheet({ place: p, city, onClose, onToggleVisited }) {
         transition: 'transform var(--dur-slow) var(--ease-out)', display: 'flex', flexDirection: 'column',
       }}>
         <div style={{ height: 10, background: `var(--cat-${p.category})`, flexShrink: 0 }}></div>
-        <div style={{ padding: '16px 16px 28px', display: 'flex', flexDirection: 'column', gap: 18 }}>
+        <div style={{ padding: '16px 16px calc(28px + env(safe-area-inset-bottom))', display: 'flex', flexDirection: 'column', gap: 18 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <CategoryTag category={p.category} />
             <IconButton icon="x" label="Close" variant="ghost" size="lg" onClick={onClose} />
