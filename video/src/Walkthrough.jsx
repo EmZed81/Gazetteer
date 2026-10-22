@@ -1,10 +1,10 @@
 import React from 'react';
-import { AbsoluteFill, Freeze, OffthreadVideo, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig, Easing } from 'remotion';
+import { AbsoluteFill, Img, OffthreadVideo, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig, Easing } from 'remotion';
 import { TITLE, TEXT, MONO } from './fonts.js';
 import '../../src/design/tokens/colors.css';
 
-// The screen recording (kept out of the repository: public/rec/ is ignored). 886×1920, 24.6 s.
-const REC = { src: 'rec/recording.mp4', w: 886, h: 1920, seconds: 24.5 };
+// The screen recording and its last frame, held at the end (kept out of the repository: public/rec/ is ignored). 886×1920, 24.6 s.
+const REC = { src: 'rec/recording.mp4', last: 'rec/last.png', w: 886, h: 1920, seconds: 24.5 };
 const HOLD = 1.5; // seconds the last frame stays on screen at the end
 export const WALK_FPS = 30;
 export const WALK_DURATION = Math.round((REC.seconds + HOLD) * WALK_FPS);
@@ -84,7 +84,7 @@ function Phone({ x, y }) {
       <div style={{ position: 'absolute', left: BAND + BEZEL, top: BAND + BEZEL, width: SCREEN_W, height: SCREEN_H, borderRadius: RADIUS, overflow: 'hidden', background: '#000' }}>
         <div style={{ position: 'absolute', left: 0, top: 0, width: REC.w, height: REC.h, transform: `scale(${scale})`, transformOrigin: '0 0' }}>
           <Sequence durationInFrames={last}><OffthreadVideo src={staticFile(REC.src)} muted style={{ width: REC.w, height: REC.h }} /></Sequence>
-          <Sequence from={last}><Freeze frame={last - 1}><OffthreadVideo src={staticFile(REC.src)} muted style={{ width: REC.w, height: REC.h }} /></Freeze></Sequence>
+          <Sequence from={last}><Img src={staticFile(REC.last)} style={{ width: REC.w, height: REC.h }} /></Sequence>
           {/* The Dynamic Island, drawn over the recording's own (which shows the red recording dot) */}
           <div style={{ position: 'absolute', left: 242, top: 26, width: 388, height: 82, borderRadius: 41, background: '#000' }} />
           {TAPS.map(([at, tx, ty]) => (
@@ -106,7 +106,7 @@ function TitleText() {
   return (
     <div style={{ position: 'absolute', left: 190, top: 0, bottom: 0, width: 820, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 34, opacity: a, transform: `translateY(${(1 - a) * 20}px)` }}>
       <Wordmark size={132} />
-      <div style={{ fontFamily: TEXT, fontSize: 40, lineHeight: 1.3, color: 'var(--ink-2)', maxWidth: 640, textWrap: 'balance' }}>A private index of places worth the detour.</div>
+      <div style={{ fontFamily: TEXT, fontSize: 40, lineHeight: 1.3, color: 'var(--ink-2)', maxWidth: 640, textWrap: 'balance' }}>An index of places worth saving.</div>
     </div>
   );
 }
@@ -132,7 +132,7 @@ function StepText() {
           </div>
         );
       })}
-      <div style={{ position: 'absolute', bottom: 128, fontFamily: TEXT, fontSize: 26, color: 'var(--ink-3)' }}>A private index of places worth the detour.</div>
+      <div style={{ position: 'absolute', bottom: 128, fontFamily: TEXT, fontSize: 26, color: 'var(--ink-3)' }}>An index of places worth saving.</div>
     </div>
   );
 }
