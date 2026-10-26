@@ -3,38 +3,40 @@ import { AbsoluteFill, Img, OffthreadVideo, Sequence, interpolate, staticFile, u
 import { TITLE, TEXT, MONO } from './fonts.js';
 import '../../src/design/tokens/colors.css';
 
-// The screen recording and its last frame, held at the end (kept out of the repository: public/rec/ is ignored). 886×1920, 24.6 s.
-const REC = { src: 'rec/recording.mp4', last: 'rec/last.png', w: 886, h: 1920, seconds: 24.5 };
+// The screen recording and its last frame, held at the end (kept out of the repository: public/rec/ is ignored).
+// 886×1920; cut at 38.7 s, just before Control Centre comes down to stop the recording.
+const REC = { src: 'rec/recording.mp4', last: 'rec/last.png', w: 886, h: 1920, seconds: 38.7 };
 const HOLD = 1.5; // seconds the last frame stays on screen at the end
 export const WALK_FPS = 30;
 export const WALK_DURATION = Math.round((REC.seconds + HOLD) * WALK_FPS);
 
 // Where each tap lands in the recording: seconds, then x/y in recording pixels.
 const TAPS = [
-  [0.25, 136, 252],   // Gazetteer icon on the home screen
-  [3.05, 380, 1200],  // Amsterdam
-  [4.95, 729, 931],   // Grid
-  [6.65, 809, 931],   // Map
-  [8.75, 545, 1037],  // Bakeries
-  [10.55, 266, 1037], // Restaurants
-  [12.55, 77, 1037],  // All
-  [14.15, 649, 931],  // List
-  [15.8, 372, 1471],  // Café Kompleet
-  [17.85, 673, 1724], // Mark as been
-  [18.95, 790, 899],  // ×
-  [21.25, 795, 213],  // Moon
-  [23.55, 162, 367],  // The Index
+  [1.25, 136, 252],   // Gazetteer icon on the home screen
+  [5, 380, 1200],     // Amsterdam
+  [8.2, 729, 931],    // Grid
+  [11.3, 809, 931],   // Map
+  [14.1, 545, 1037],  // Bakeries
+  [16.7, 266, 1037],  // Restaurants
+  [19.6, 77, 1037],   // All
+  [22.5, 649, 931],   // List
+  [25.5, 372, 1660],  // Café Kompleet
+  [28.5, 673, 1724],  // Mark as been
+  [31.3, 790, 899],   // ×
+  [33.5, 795, 213],   // Moon
+  [35.9, 162, 367],   // The Index
 ];
 
-// Labels beside the phone (option "steps"): from this second on.
+// Labels beside the phone (option "steps"): from this second on. Each one arrives a moment before
+// the tap it describes, so you read it first, then see it happen.
 const STEPS = [
   [0, 'The Index', 'Every saved place, filed by destination.'],
-  [3.0, 'A destination', 'Amsterdam: seventy-one places worth the detour.'],
-  [4.85, 'Three views', 'A list, a grid, a map.'],
-  [8.65, 'Filters', 'Bakeries, restaurants, or all of it.'],
-  [15.7, 'A place', 'Where it is, which list, who recommended it.'],
-  [17.75, 'Been', 'Mark it off once you’ve been.'],
-  [21.15, 'Night edition', 'For reading after dinner.'],
+  [4.2, 'A destination', 'Amsterdam: seventy-one places worth the detour.'],
+  [7.4, 'Three views', 'A list, a grid, a map.'],
+  [13.3, 'Filters', 'Bakeries, restaurants, or all of it.'],
+  [24.7, 'A place', 'Where it is, which list, who recommended it.'],
+  [27.7, 'Been', 'Mark it off once you’ve been.'],
+  [32.7, 'Night edition', 'For reading after dinner.'],
 ];
 
 // Phone geometry: screen size on the canvas, then the bezel and titanium band around it.
