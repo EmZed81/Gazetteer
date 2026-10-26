@@ -4,9 +4,9 @@ import { TITLE, TEXT, MONO } from './fonts.js';
 import '../../src/design/tokens/colors.css';
 
 // The screen recording and its last frame, held at the end (kept out of the repository: public/rec/ is ignored).
-// 886×1920; cut at 38.7 s, just before Control Centre comes down to stop the recording.
-const REC = { src: 'rec/recording.mp4', last: 'rec/last.png', w: 886, h: 1920, seconds: 38.7 };
-const HOLD = 1.5; // seconds the last frame stays on screen at the end
+// 886×1920; the video stops at 37 s, before the screen starts to dim for Control Centre.
+const REC = { src: 'rec/recording.mp4', last: 'rec/last.png', w: 886, h: 1920, seconds: 37 };
+const HOLD = 0; // seconds the last frame stays on screen at the end
 export const WALK_FPS = 30;
 export const WALK_DURATION = Math.round((REC.seconds + HOLD) * WALK_FPS);
 
@@ -27,14 +27,14 @@ const TAPS = [
   [35.9, 162, 367],   // The Index
 ];
 
-// Labels beside the phone (option "steps"): from this second on. Each one arrives a moment before
+// Labels beside the phone (option "steps"): from this second on; \n marks a line break. Each one arrives a moment before
 // the tap it describes, so you read it first, then see it happen.
 const STEPS = [
-  [0, 'The Index', 'Every saved place, filed by destination.'],
+  [0, 'The Index', 'Every saved place,\nfiled by destination.'],
   [4.2, 'A destination', 'Amsterdam: seventy-one places worth the detour.'],
   [7.4, 'Three views', 'A list, a grid, a map.'],
   [13.3, 'Filters', 'Bakeries, restaurants, or all of it.'],
-  [24.7, 'A place', 'Where it is, which list, who recommended it.'],
+  [23.7, 'A place', 'Where it is, which list,\nwho recommended it.'],
   [27.7, 'Been', 'Mark it off once you’ve been.'],
   [32.7, 'Night edition', 'For reading after dinner.'],
 ];
@@ -130,7 +130,7 @@ function StepText() {
           <div key={title} style={{ position: 'absolute', top: 420, opacity: o, transform: `translateY(${(1 - inA) * 24}px)` }}>
             <div style={{ fontFamily: MONO, fontSize: 24, letterSpacing: '.04em', color: 'var(--red-pencil)' }}>{String(i + 1).padStart(2, '0')} / {String(STEPS.length).padStart(2, '0')}</div>
             <div style={{ fontFamily: TITLE, fontSize: 96, lineHeight: 1.1, marginTop: 18, color: 'var(--ink-1)' }}>{title}</div>
-            <div style={{ fontFamily: TEXT, fontSize: 36, lineHeight: 1.3, marginTop: 22, color: 'var(--ink-2)', maxWidth: 640 }}>{sub}</div>
+            <div style={{ fontFamily: TEXT, fontSize: 36, lineHeight: 1.3, marginTop: 22, color: 'var(--ink-2)', maxWidth: 640, whiteSpace: 'pre-line' }}>{sub}</div>
           </div>
         );
       })}
