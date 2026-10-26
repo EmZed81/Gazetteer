@@ -150,3 +150,46 @@ export function Walkthrough({ type = 'steps' }) {
     </AbsoluteFill>
   );
 }
+
+// The mockups that open the LinkedIn cut (kept out of the repository: public/mockups/ is ignored).
+const MOCKUPS = ['mockups/1-hand.jpg', 'mockups/2-flat.jpg', 'mockups/3-dark.jpg'];
+const MOCKUP_S = 2.8, CROSS_S = 0.6; // seconds each mockup leads, and the cross-fade into the next
+const INTRO = Math.round(MOCKUPS.length * MOCKUP_S * WALK_FPS);
+export const INTRO_DURATION = INTRO - Math.round(CROSS_S * WALK_FPS) + WALK_DURATION; // the walkthrough starts during the last cross-fade
+
+/** One mockup, full frame, pushing in slowly; it fades in over the one before it. */
+function Mockup({ src, first }) {
+  const f = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const span = (MOCKUP_S + CROSS_S) * fps;
+  const a = first ? 1 : interpolate(f, [0, CROSS_S * fps], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const zoom = interpolate(f, [0, span], [1, 1.03], clamp);
+  return (
+    <AbsoluteFill style={{ opacity: a }}>
+      <Img src={staticFile(src)} style={{ width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${zoom})` }} />
+    </AbsoluteFill>
+  );
+}
+
+/** The LinkedIn cut: the three mockups first, then the walkthrough fades in over the last one. */
+export function WalkthroughWithMockups() {
+  const { fps } = useVideoConfig();
+  const step = Math.round(MOCKUP_S * fps), cross = Math.round(CROSS_S * fps);
+  return (
+    <AbsoluteFill style={{ background: 'var(--paper-1)' }}>
+      {MOCKUPS.map((src, i) => (
+        <Sequence key={src} from={i === 0 ? 0 : i * step - cross} durationInFrames={step + cross * 2}>
+          <Mockup src={src} first={i === 0} />
+        </Sequence>
+      ))}
+      <Sequence from={INTRO - cross}>
+        <FadeIn frames={cross}><Walkthrough type="steps" /></FadeIn>
+      </Sequence>
+    </AbsoluteFill>
+  );
+}
+
+const FadeIn = ({ frames, children }) => {
+  const a = interpolate(useCurrentFrame(), [0, frames], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  return <AbsoluteFill style={{ opacity: a }}>{children}</AbsoluteFill>;
+};
